@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  labels:
+    app: shopify-challenge
+  name: shopify-ingress
+  namespace: default
+spec:
+  rules:
+  - host: shopify.adi.run
+    http:
+      paths:
+      - path: /docs
+        backend:
+          serviceName: docs
+          servicePort: http
+      - path: /rest
+        backend:
+          serviceName: api
+          servicePort: http   
+  tls:
+  - hosts:
+    - shopify.adi.run
+    secretName: star-adi-run

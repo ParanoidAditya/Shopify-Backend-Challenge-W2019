@@ -1,0 +1,23 @@
+steps:
+# - name: 'gcr.io/cloud-builders/npm'
+#   args: ['install']
+# - name: 'gcr.io/cloud-builders/npm'
+#   args: ['test']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["build", "-t", "gcr.io/shopify-w2019/rest:$REVISION_ID", "."]
+  timeout: 500s
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["push", "gcr.io/shopify-w2019/rest:$REVISION_ID"]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["tag", "gcr.io/shopify-w2019/rest:$REVISION_ID", "gcr.io/shopify-w2019/rest:latest"]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["push", "gcr.io/shopify-w2019/rest:latest"]
+- name: 'gcr.io/cloud-builders/kubectl'
+  args:
+  - 'set'
+  - 'image'
+  - 'deployment/api'
+  - 'rest=gcr.io/shopify-w2019/rest:$REVISION_ID'
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=northamerica-northeast1'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=shopify-calls'

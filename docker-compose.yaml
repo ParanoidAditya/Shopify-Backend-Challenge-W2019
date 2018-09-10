@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  node:
+    image: rest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=mysql
+      - DB_SEED=true
+    ports:
+      - "3000:3000"
+    depends_on: 
+      - mysql
+  mysql:
+    image: mysql/mysql-server:5.7
+    environment:
+      - MYSQL_DATABASE=shopify
+      - MYSQL_USER=aditya
+      - MYSQL_PASSWORD=S3cr3t

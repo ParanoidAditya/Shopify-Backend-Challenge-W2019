@@ -1,0 +1,70 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: docs
+  labels:
+    name: docs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: docs
+  template:
+    metadata:
+      labels:
+        name: docs
+    spec:
+      containers:
+      - name: git-sync
+        image: paranoidaditya/git-sync-amd64:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: git
+          mountPath: /temp
+        - name: git-secret
+          mountPath: /etc/git-secret
+        securityContext:
+          runAsUser: 0  
+        env:
+        - name: GIT_SYNC_REPO
+          value: git@github.com:ParanoidAditya/shopify-intern-challenge-doc.git
+        - name: GIT_SYNC_DEST
+          value: docs
+        args:
+        - --ssh
+        - --root=/temp
+
+      - name: nginx
+        image: nginx
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 90
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+        volumeMounts:
+        - name: git
+          mountPath: /usr/share/nginx/html
+        - name: nginx-conf
+          mountPath: /etc/nginx/conf.d
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+      - name: git
+        emptyDir: {}
+      - name: git-secret
+        secret:
+          secretName: git-secret
+          defaultMode: 256

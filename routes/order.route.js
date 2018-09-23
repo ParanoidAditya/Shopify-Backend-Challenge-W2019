@@ -10,6 +10,9 @@ const orderController = require('../controllers/order.controller');
  * @apiSuccess {Number} value order's value
  * @apiSampleRequest https://shopify.adi.run/rest/v1/shop/1/order/
  * @apiVersion 1.0.0
+ * @apiExample Example usage:
+ * curl --request GET \
+ * --url https://shopify.adi.run/rest/v1/shop/1/order
  */
 orderRouter.get('/', function(req,res){
 	orderController.getAll(req, res);
@@ -27,6 +30,9 @@ orderRouter.get('/', function(req,res){
  * @apiSuccess {Array} lineItem lineItems associated with the order
  * @apiSampleRequest https://shopify.adi.run/rest/v1/shop/1/order/1
  * @apiVersion 1.0.0
+ * @apiExample Example usage:
+ * curl --request GET \
+ * --url https://shopify.adi.run/rest/v1/shop/1/order/1
  */
 orderRouter.get('/:order_id', function (req, res){
 	orderController.getSingle(req, res);
@@ -37,17 +43,19 @@ orderRouter.get('/:order_id', function (req, res){
  * @apiName CreateOrder
  * @apiGroup Order  
  * @apiDescription Create a new order
- * @apiExample Example usage:
- *     body:
- *     {
- *       "items": [{
- * 			"name": "Sample Product",
- * 			"product_id": 1,
- * 			"quantity": 4
- * 		}]
- *     }
  * @apiSuccess {Number} id Order's id
  * @apiVersion 1.0.0
+ * @apiExample Example usage:
+ * curl --request POST \
+ * --url https://shopify.adi.run/rest/v1/shop/1/order \
+ * --header 'Content-Type: application/json' \
+ * --data '{
+ *	"items": [{
+ *		"name": "sample product",
+ *		"product_id": 1,
+ * 		"quantity": 10
+ * 		}]
+ * }'
  */
 orderRouter.post('/', function (req, res){
 	orderController.createSingle(req, res);
@@ -69,6 +77,9 @@ orderRouter.post('/:order_id', function (req, res){
  *       "status": "Order not found"
  *     }
  * @apiVersion 1.0.0
+ * @apiExample Example usage:
+ * curl --request DELETE \
+ * --url https://shopify.adi.run/rest/v1/shop/1/order/1
  */
 orderRouter.delete('/:order_id', function (req, res){
 	orderController.deleteSingle(req, res);

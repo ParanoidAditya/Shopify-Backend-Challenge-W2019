@@ -10,6 +10,9 @@ const shopController = require('../controllers/shop.controller');
  * @apiSuccess {String} name Shop's name.
  * @apiSampleRequest https://shopify.adi.run/rest/v1/shop/
  * @apiVersion 1.0.0
+ * @apiExample Example usage:
+ * curl --request GET \
+ * --url https://shopify.adi.run/rest/v1/shop
  */
 shopRouter.get('/', function (req, res){
 	return shopController.getAll(req, res);
@@ -30,6 +33,9 @@ shopRouter.get('/', function (req, res){
  *       "status": "Shop not found"
  *     }
  * @apiVersion 1.0.0
+ * @apiExample Example usage:
+ * curl --request GET \
+ * --url https://shopify.adi.run/rest/v1/shop/1
  */
 shopRouter.get('/:shop_id', function (req, res){
 	return shopController.getSingle(req, res);
@@ -40,14 +46,16 @@ shopRouter.get('/:shop_id', function (req, res){
  * @apiName CreateShop
  * @apiGroup Shop  
  * @apiDescription Create a new shop
- * @apiExample Example usage:
- *     body:
- *     {
- *       "name": "My New Store",
- *       "plan": "basic"
- *     }
  * @apiSuccess {Number} id Shop's id
  * @apiVersion 1.0.0
+ * @apiExample Example usage:
+ * curl --request POST \
+ * --url https://shopify.adi.run/rest/v1/shop/ \
+ * --header 'Content-Type: application/json' \
+ * --data '{
+ *	"name":"test store",
+ *	"plan":"basic"
+ * }'
  */
 shopRouter.post('/', function (req, res){
 	return shopController.createSingle(req, res);
@@ -69,6 +77,9 @@ shopRouter.post('/:shop_id', function (req, res){
  *       "status": "Shop not found"
  *     }
  * @apiVersion 1.0.0
+ * @apiExample Example usage:
+ * curl --request DELETE \
+ * --url https://shopify.adi.run/rest/v1/shop/1
  */
 shopRouter.delete('/:shop_id', function (req, res){
 	return shopController.deleteSingle(req, res);
@@ -90,11 +101,13 @@ shopRouter.delete('/:shop_id', function (req, res){
  *       "status": "Shop not found"
  *     }
  * @apiExample Example usage:
- *     body:
- *     {
- *       "name": "My New Store",
- *       "plan": "basic"
- *     }
+ * curl --request PUT \
+ * --url https://shopify.adi.run/rest/v1/shop/1 \
+ * --header 'Content-Type: application/json' \
+ * --data '{
+ *	"name":"Premium store",
+ *	"plan":"premium"
+ * }'
  * @apiVersion 1.0.0
  */
 shopRouter.put('/:shop_id', function (req, res){

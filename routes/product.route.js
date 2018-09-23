@@ -11,6 +11,9 @@ const productController = require('../controllers/product.controller');
  * @apiSuccess {Number} value product's value
  * @apiSampleRequest https://shopify.adi.run/rest/v1/shop/1/product/
  * @apiVersion 1.0.0
+ * @apiExample Example usage:
+ * curl --request GET \
+ * --url https://shopify.adi.run/rest/v1/shop/1/product
  */
 productRouter.get('/', function(req,res){
 	return productController.getAll(req, res);
@@ -27,6 +30,9 @@ productRouter.get('/', function(req,res){
  * @apiSuccess {Array} lineItem lineItems associated with the product
  * @apiSampleRequest https://shopify.adi.run/rest/v1/shop/1/product/1
  * @apiVersion 1.0.0
+ * @apiExample Example usage:
+ * curl --request GET \
+ * --url https://shopify.adi.run/rest/v1/shop/1/product/1
  */
 productRouter.get('/:product_id', function(req,res){
 	return productController.getSingle(req, res);
@@ -38,11 +44,13 @@ productRouter.get('/:product_id', function(req,res){
  * @apiGroup Product  
  * @apiDescription Create a new product
  * @apiExample Example usage:
- *     body:
- *     {
- *       "name": "A new product",
- *       "value": 39.99
- *     }
+ * curl --request POST \
+ * --url https://shopify.adi.run/rest/v1/shop/1/product \
+ * --header 'Content-Type: application/json' \
+ * --data '{
+ *	"name":"A new product",
+ *	"value": 199.99
+ * }'
  * @apiSuccess {Number} id Product's id
  * @apiVersion 1.0.0
  */
@@ -65,6 +73,9 @@ productRouter.post('/:product_id', function (req, res){
  *       "status": "Product not found"
  *     }
  * @apiVersion 1.0.0
+ * @apiExample Example usage:
+ * curl --request DELETE \
+ * --url https://shopify.adi.run/rest/v1/shop/1/product/1
  */
 productRouter.delete('/:product_id', function (req, res){
 	productController.deleteSingle(req, res);
@@ -76,11 +87,13 @@ productRouter.delete('/:product_id', function (req, res){
  * @apiGroup Product  
  * @apiDescription Edit an existing product
  * @apiExample Example usage:
- *     body:
- *     {
- *       "name": "A new product",
- *       "value": 39.99
- *     }
+ * curl --request PUT \
+ * --url https://shopify.adi.run/rest/v1/shop/1/product/1 \
+ * --header 'Content-Type: application/json' \
+ * --data '{
+ *	"name":"Updated Product Name",
+ *	"value": 49.99
+ * }'
  * @apiSuccess {Number} id product's id
  * @apiSuccess {String} name product's name
  * @apiSuccess {Number} value product's value

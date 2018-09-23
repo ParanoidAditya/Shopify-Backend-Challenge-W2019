@@ -4,6 +4,8 @@ metadata:
   name: sanitize-db
 spec:
   schedule: "@hourly"
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:

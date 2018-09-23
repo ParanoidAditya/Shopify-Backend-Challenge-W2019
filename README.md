@@ -72,9 +72,4 @@ Example: deleting a shop will leave all its orders and products still in the DB 
 Things that dont work
 - Updating an order, I did not have enough time on hand to implement this
 
-<<<<<<< HEAD
-By no means the API is perfect, but I really enjoyed working on this challenge, especially running the k8s part
-=======
 By no means the API is perfect, but I really enjoyed working on this challenge, especially the yet-unexplored sql part
->>>>>>> 1473816... docs done
-

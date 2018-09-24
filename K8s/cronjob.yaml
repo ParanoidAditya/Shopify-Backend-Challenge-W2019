@@ -3,9 +3,9 @@ kind: CronJob
 metadata:
   name: sanitize-db
 spec:
-  schedule: "@hourly"
+  schedule: "*/30 * * * *"
   failedJobsHistoryLimit: 1
-  successfulJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 2
   jobTemplate:
     spec:
       template:
@@ -30,9 +30,9 @@ spec:
                   key: password
           - name: cloudsql-proxy
             image: gcr.io/cloudsql-docker/gce-proxy:1.11
-            command: ["/cloud_sql_proxy",
-              "-instances=shopify-w2019:northamerica-northeast1:hire-me=tcp:3306",
-              "-credential_file=/secrets/cloudsql/credentials.json"]
+            command: ["sh", "-c"]
+            args:
+            - /cloud_sql_proxy -instances=shopify-w2019:northamerica-northeast1:hire-me=tcp:3306 -credential_file=/secrets/cloudsql/credentials.json & pid=$! && (sleep 60 && kill -9 $pid 2>/dev/null)
             securityContext:
               runAsUser: 2  # non-root user
               allowPrivilegeEscalation: false
@@ -40,7 +40,7 @@ spec:
             - name: cloudsql-instance-credentials
               mountPath: /secrets/cloudsql
               readOnly: true
-          restartPolicy: OnFailure
+          restartPolicy: Never
           volumes:
           - name: cloudsql-instance-credentials
             secret:

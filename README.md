@@ -1,6 +1,7 @@
 # Shopify Developer Intern Challenge - Winter 2019 
  
  ### API Endpoint: [https://shopify.adi.run/rest/v1/shop]
+ ### API Docs: [https://shopify.adi.run/docs]
  ## Checklist 
  - [x] Basic 
  - [x] Extra Credit
@@ -13,7 +14,7 @@
 - [x] _Extraaa_ Things Nobody asked for but I did anyway for fun
     - [x] ingress-nginx
     - [x] [Grafana Dashboard](http://grafana.adi.run)
-    - [x] BatchCronJob to sanitize the database every hour
+    - [x] BatchCronJob to sanitize the database every half an hour
     - [x] external-dns with cert-manager to auto provision LE TLS certs
     - [X] Horizontal Pod Autoscaling
 
@@ -50,7 +51,7 @@ I tried to follow and replicate REST-API pattern at [MixMax Developer](https://d
 
 I used [Sequilize ORM](http://docs.sequelizejs.com/) to model my Schema and interact with the DB
 
-Working with Node.js again after 4 straight months of straight GoLang was a little harder than I anticipated. (Checkout the controllers to see me struggle with async)
+Working with Node.js again after 4 straight months of GoLang was a little harder than I anticipated. (Checkout the controllers to see me struggle with async)
 
 The relationship modeling between Shops, Products and Order was easy to comprehend. 
 
@@ -68,8 +69,9 @@ Things that are `hacky`
 - Creating an order (See controller, mixing asynchronous and synchronous logic with `hacks` in place which will make any js dev hate me)
 - Deleting a Shop, Order or Product will leave the data associated with them in the other tables intact. 
 Example: deleting a shop will leave all its orders and products still in the DB with a shopId: `null`
+    - The k8s batch cronjob comes in handy to clean this up/re-seed the DB with the demo data.
 
 Things that dont work
 - Updating an order, I did not have enough time on hand to implement this
 
-By no means the API is perfect, but I really enjoyed working on this challenge, especially the yet-unexplored sql part
+By no means the API is perfect, but I really enjoyed working on this challenge, especially the personally-yet-unexplored sql part
